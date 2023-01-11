@@ -16,5 +16,6 @@ class UserSerializer(serializers.ModelSerializer):
         
         def create(self, validated_data):
             """Create and return a user with encrypted password."""
+            print("kiki class UserSerializer -- def create(self,validated_data ",validated_data)
             return get_user_model().objects.create_user(**validated_data)
         

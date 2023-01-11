@@ -24,9 +24,9 @@ class PublicUserApiTests(TestCase):
     def test_create_user_success(self):
         """Test creating a user is successful."""
         payload = {
-                'email': 'test@example.com',
-                'password': 'testpass123',
-                'name': 'Test Name',
+                'email': 'test_@example.com',
+                'password': 'testpass1239',
+                'name': 'Test Nameuser',
         }
         res = self.client.post(CREATE_USER_URL, payload)
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
@@ -36,10 +36,11 @@ class PublicUserApiTests(TestCase):
     
     def test_user_with_email_exists_error(self):
         """Test error returned if user with email exists."""
+        print('sono dentro test_user_with_email....')
         payload = {
-                'email': 'test@example.com',
-                'password': 'testpass123',
-                'name': 'Test Name',
+                'email': 'test_@example.com',
+                'password': 'testpass1239',
+                'name': 'Test Nameuser',
         }
         create_user(**payload)
         res = self.client.post(CREATE_USER_URL, payload)
