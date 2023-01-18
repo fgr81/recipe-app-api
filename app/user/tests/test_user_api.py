@@ -38,7 +38,6 @@ class PublicUserApiTests(TestCase):
     
     def test_user_with_email_exists_error(self):
         """Test error returned if user with email exists."""
-        print('sono dentro test_user_with_email....')
         payload = {
                 'email': 'test_@example.com',
                 'password': 'testpass1239',
