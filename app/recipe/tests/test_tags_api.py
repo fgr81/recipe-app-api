@@ -108,6 +108,7 @@ class PrivateTagsApiTests(TestCase):
                 price=Decimal('34.3'),
                 user=self.user,
         )
+        recipe.tags.add(tag1)
 
         res = self.client.get(TAGS_URL, {'assigned_only': 1})
 

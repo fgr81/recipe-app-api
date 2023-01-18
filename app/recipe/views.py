@@ -61,13 +61,10 @@ class RecipeViewSet(viewsets.ModelViewSet):
         queryset = self.queryset
         if tags:
             tag_ids = self._params_to_ints(tags)
-            print('kiki0 tag_ids:', tag_ids)
             queryset = queryset.filter(tags__id__in=tag_ids)
         if ingredients:
             ingredient_ids = self._params_to_ints(ingredients)
-            print('kiki1 ingredient_ids:', ingredient_ids)
             queryset = queryset.filter(ingredients__id__in=ingredient_ids)
-        print('porcodio queryset ' , queryset)
         return queryset.filter(
                 user=self.request.user
         ).order_by('-id').distinct()
@@ -127,7 +124,7 @@ class BaseRecipeAttrViewSet(mixins.DestroyModelMixin,
         if assigned_only:
             queryset = queryset.filter(recipe__isnull=False)
 
-        return self.queryset.filter(
+        return queryset.filter(
                 user=self.request.user
         ).order_by('-name').distinct()
 
