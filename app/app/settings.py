@@ -133,7 +133,7 @@ STATIC_URL = '/static/static/'
 MEDIA_URL = '/static/media/'
 
 MEDIA_ROOT = '/vol/web/media'
-STATIC_ROOT = '/vol/web/static/'
+STATIC_ROOT = '/vol/web/static'
 
 
 # Default primary key field type
