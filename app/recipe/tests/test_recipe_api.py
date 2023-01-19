@@ -33,9 +33,11 @@ def detail_url(recipe_id):
     """Create and return a recipe detail URL."""
     return reverse('recipe:recipe-detail', args=[recipe_id])
 
+
 def image_upload_url(recipe_id):
     """Create and return an image upload URL."""
     return reverse('recipe:recipe-upload-image', args=[recipe_id])
+
 
 def create_recipe(user, **params):
     """Create and return a sample recipe."""
@@ -50,6 +52,7 @@ def create_recipe(user, **params):
 
     recipe = Recipe.objects.create(user=user, **defaults)
     return recipe
+
 
 def create_user(**params):
     """Create and return a new user."""
@@ -92,7 +95,8 @@ class PrivateRecipeApiTests(TestCase):
 
     def test_recipe_list_limited_to_user(self):
         """Test list of recipes is limited to authenticated user."""
-        other_user = create_user(email='other@example.com', password='password123')
+        other_user = create_user(email='other@example.com',
+                                 password='password123')
         create_recipe(user=other_user)
         create_recipe(user=self.user)
 
@@ -112,12 +116,12 @@ class PrivateRecipeApiTests(TestCase):
 
         serializer = RecipeDetailSerializer(recipe)
         self.assertEqual(res.data, serializer.data)
-    
+
     def test_create_recipe(self):
         """Test creating a recipe."""
         payload = {
                 'title': 'Sample recipe',
-                'time_minutes': 30, 
+                'time_minutes': 30,
                 'price': Decimal('5.99'),
 
         }
@@ -205,7 +209,7 @@ class PrivateRecipeApiTests(TestCase):
 
         self.assertEqual(res.status_code, status.HTTP_404_NOT_FOUND)
         self.assertTrue(Recipe.objects.filter(id=recipe.id).exists())
-    
+
     def test_create_reciper_with_new_tags(self):
         """Test creating a recipe with new tags."""
         payload = {
@@ -218,7 +222,7 @@ class PrivateRecipeApiTests(TestCase):
 
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
         recipes = Recipe.objects.filter(user=self.user)
-        self.assertEqual(recipes.count(),1)
+        self.assertEqual(recipes.count(), 1)
         recipe = recipes[0]
         for tag in payload['tags']:
             exists = recipe.tags.filter(
@@ -380,7 +384,7 @@ class PrivateRecipeApiTests(TestCase):
     def test_filter_by_tags(self):
         """Test filtering recipes by tags."""
         r1 = create_recipe(user=self.user, title='Thai Vegetable Curry')
-        r2 = create_recipe(user=self.user, title= 'Aubergine with Tahini')
+        r2 = create_recipe(user=self.user, title='Aubergine with Tahini')
         tag1 = Tag.objects.create(user=self.user, name='Vegan')
         tag2 = Tag.objects.create(user=self.user, name='Vegetarian')
         r1.tags.add(tag1)
@@ -396,7 +400,7 @@ class PrivateRecipeApiTests(TestCase):
         self.assertIn(s1.data, res.data)
         self.assertIn(s2.data, res.data)
         self.assertNotIn(s3.data, res.data)
-    
+
     def test_filter_by_ingredients(self):
         """Test filtering recipes by ingredients."""
         r1 = create_recipe(user=self.user, title='Posh Beans on Toasts')
@@ -416,8 +420,8 @@ class PrivateRecipeApiTests(TestCase):
         self.assertIn(s1.data, res.data)
         self.assertIn(s2.data, res.data)
         self.assertNotIn(s3.data, res.data)
-    
-    
+
+
 class ImageUploadTests(TestCase):
     """Tests for the image upload API."""
 

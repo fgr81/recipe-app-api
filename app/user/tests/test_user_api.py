@@ -12,6 +12,7 @@ CREATE_USER_URL = reverse('user:create')
 TOKEN_URL = reverse('user:token')
 ME_URL = reverse('user:me')
 
+
 def create_user(**params):
     """Create and return a new user."""
     return get_user_model().objects.create_user(**params)
@@ -22,7 +23,7 @@ class PublicUserApiTests(TestCase):
 
     def setUp(self):
         self.client = APIClient()
-    
+
     def test_create_user_success(self):
         """Test creating a user is successful."""
         payload = {
@@ -35,7 +36,7 @@ class PublicUserApiTests(TestCase):
         user = get_user_model().objects.get(email=payload['email'])
         self.assertTrue(user.check_password(payload['password']))
         self.assertNotIn('password', res.data)
-    
+
     def test_user_with_email_exists_error(self):
         """Test error returned if user with email exists."""
         payload = {
@@ -62,7 +63,7 @@ class PublicUserApiTests(TestCase):
                 email=payload['email']
         ).exists()
         self.assertFalse(user_exists)
-    
+
     def test_create_token_for_user(self):
         """Test returns ok if user correctly created."""
         user_details = {
@@ -144,4 +145,3 @@ class PrivateUserApiTests(TestCase):
         self.assertEqual(self.user.name, payload['name'])
         self.assertTrue(self.user.check_password(payload['password']))
         self.assertEqual(res.status_code, status.HTTP_200_OK)
-

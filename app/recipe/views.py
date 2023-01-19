@@ -2,9 +2,9 @@
 Views for the recipe APIs.
 """
 from drf_spectacular.utils import (
-        extend_schema_view, 
+        extend_schema_view,
         extend_schema,
-        OpenApiParameter, 
+        OpenApiParameter,
         OpenApiTypes,
 )
 from rest_framework import (
@@ -37,7 +37,7 @@ from recipe import serializers
                 OpenApiParameter(
                     'ingredients',
                     OpenApiTypes.STR,
-                    description='Comma separated list of ingredient IDs to filter',
+                    description='Comma separated list of ingr IDs to filter',
                 )
             ]
         )
@@ -48,7 +48,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
     queryset = Recipe.objects.all()
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
-    
+
     def _params_to_ints(self, qs):
         """Convert a list og string to integers."""
         return [int(str_id) for str_id in qs.split(',')]
@@ -68,7 +68,6 @@ class RecipeViewSet(viewsets.ModelViewSet):
         return queryset.filter(
                 user=self.request.user
         ).order_by('-id').distinct()
-
 
     def get_serializer_class(self):
         """Return the serializer class for request."""
@@ -101,16 +100,16 @@ class RecipeViewSet(viewsets.ModelViewSet):
             parameters=[
                 OpenApiParameter(
                     'assigned_only',
-                    OpenApiTypes.INT, enum=[0,1],
+                    OpenApiTypes.INT, enum=[0, 1],
                     description='Filter by items assinged to recipes.',
                 )
             ]
         )
 )
 class BaseRecipeAttrViewSet(mixins.DestroyModelMixin,
-        mixins.UpdateModelMixin, 
-        mixins.ListModelMixin,
-        viewsets.GenericViewSet):
+                            mixins.UpdateModelMixin,
+                            mixins.ListModelMixin,
+                            viewsets.GenericViewSet):
     """Base viewset for recipe attributes."""
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
@@ -133,7 +132,7 @@ class TagViewSet(BaseRecipeAttrViewSet):
     """Manage tags in the database."""
     serializer_class = serializers.TagSerializer
     queryset = Tag.objects.all()
-    
+
 
 class IngredientViewSet(BaseRecipeAttrViewSet):
     """Manage ingredients in the database."""
